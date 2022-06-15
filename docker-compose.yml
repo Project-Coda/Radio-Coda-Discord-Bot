@@ -1,0 +1,7 @@
+version: '2'
+services:
+  music-bot:
+    image: ghcr.io/project-coda/coda-music:main
+    volumes:
+      - ./env.js:/app/env.js
+    restart: always

@@ -1,0 +1,30 @@
+{
+  "name": "radio-coda",
+  "version": "1.0.0",
+  "description": "A 24/7 music bot for discord.gg/coda",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Project-Coda/Radio-Coda.git"
+  },
+  "author": "ikifar2012",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Project-Coda/Radio-Coda/issues"
+  },
+  "homepage": "https://github.com/Project-Coda/Radio-Coda#readme",
+  "dependencies": {
+    "@discordjs/voice": "^0.9.0",
+    "discord.js": "^13.7.0",
+    "ffmpeg-static": "^4.4.1",
+    "figlet": "^1.5.2",
+    "sodium": "^3.0.2",
+    "ytdl-core": "^4.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.16.0"
+  }
+}
