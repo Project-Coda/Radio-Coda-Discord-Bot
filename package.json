@@ -18,7 +18,7 @@
   "homepage": "https://github.com/Project-Coda/Radio-Coda#readme",
   "dependencies": {
     "@discordjs/voice": "^0.10.0",
-    "discord.js": "^13.7.0",
+    "discord.js": "^13.8.0",
     "ffmpeg-static": "^5.0.0",
     "figlet": "^1.5.2",
     "sodium": "^3.0.2",
