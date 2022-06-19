@@ -69,7 +69,7 @@ client.once('ready', async () => {
 		console.log(req.body);
 		// Set activity based on request
 		client.user.setActivity(req.body.now_playing.song.text);
-		res.send('Hello World!');
+		res.send(`Set status to ${req.body.now_playing.song.text}`);
 	},
 	);
 	app.listen(port, () => console.log(`Example app listening on port ${port}!`));
