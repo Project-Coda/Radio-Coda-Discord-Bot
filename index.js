@@ -2,7 +2,10 @@ const { Client } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, NoSubscriberBehavior, AudioPlayerStatus } = require('@discordjs/voice');
 const env = require('./env.js');
 const figlet = require('figlet');
-const ytdl = require('ytdl-core');
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+var bodyParser = require('body-parser');
 const client = new Client({
 	disableEveryone: true,
 	intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES'],
@@ -29,11 +32,9 @@ client.once('ready', async () => {
 	});
 
 	async function LoadStream() {
-		info = await ytdl.getInfo(env.coda.stream_url);
-		format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio' }).url;
-		console.log(format);
+
 		console.log('Adding Stream Resource');
-		resource = createAudioResource(format);
+		resource = createAudioResource(env.radio.url);
 		console.log('Loaded Stream');
 		PlayStream();
 	}
@@ -62,5 +63,16 @@ client.once('ready', async () => {
 		console.log('Idle!');
 		reset();
 	});
+	app.use(bodyParser.json());
+	app.post('/', (req, res) => {
+		console.log('Received Request');
+		console.log(req.body);
+		// Set activity based on request
+		client.user.setActivity(req.body.now_playing.song.text);
+		res.send('Hello World!');
+	},
+	);
+	app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
 	reset();
 });

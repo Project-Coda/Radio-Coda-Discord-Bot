@@ -1,7 +1,9 @@
 version: '2'
 services:
-  music-bot:
-    image: ghcr.io/project-coda/coda-music:main
+  radio-coda:
+    build: .
     volumes:
       - ./env.js:/app/env.js
+    ports:
+      - "3000:3000"
     restart: always
