@@ -1,5 +1,5 @@
 const { Client } = require('discord.js');
-const { joinVoiceChannel, createAudioPlayer, createAudioResource, NoSubscriberBehavior, AudioPlayerStatus } = require('@discordjs/voice');
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, NoSubscriberBehavior, AudioPlayerStatus, entersState, VoiceConnectionStatus } = require('@discordjs/voice');
 const env = require('./env.js');
 const figlet = require('figlet');
 const express = require('express');
@@ -25,11 +25,6 @@ client.once('ready', async () => {
 
 	});
 	channel = client.channels.cache.get(env.discord.vc);
-	const connection = joinVoiceChannel({
-		channelId: env.discord.vc,
-		guildId: env.discord.guild,
-		adapterCreator: channel.guild.voiceAdapterCreator,
-	});
 
 	async function LoadStream() {
 
@@ -42,6 +37,11 @@ client.once('ready', async () => {
 	async function PlayStream() {
 		console.log('Playing Stream');
 		player.play(resource);
+		connection = joinVoiceChannel({
+			channelId: env.discord.vc,
+			guildId: env.discord.guild,
+			adapterCreator: channel.guild.voiceAdapterCreator,
+		});
 		connection.subscribe(player);
 		console.log('Stream Playing');
 	}
@@ -66,13 +66,32 @@ client.once('ready', async () => {
 	app.use(bodyParser.json());
 	app.post('/', (req, res) => {
 		console.log('Received Request');
-		console.log(req.body);
 		// Set activity based on request
 		client.user.setActivity(req.body.now_playing.song.text);
 		res.send(`Set status to ${req.body.now_playing.song.text}`);
+		console.log(`Set status to ${req.body.now_playing.song.text}`);
 	},
 	);
-	app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+	app.listen(port, () => console.log(`Now Playing API listening on port ${port}!`));
 
-	reset();
+	await reset();
+	connection.on(VoiceConnectionStatus.Disconnected, async () => {
+		try {
+			console.log('Attempting to reconnect');
+			await Promise.race([
+				entersState(connection, VoiceConnectionStatus.Signalling, 5_000),
+				entersState(connection, VoiceConnectionStatus.Connecting, 5_000),
+			]);
+		}
+		catch (error) {
+			console.log('Disconnected!');
+			connection.destroy();
+		}
+	},
+	);
+	connection.on(VoiceConnectionStatus.Destroyed, async () => {
+		console.log('Connection Destroyed!');
+		reset();
+	},
+	);
 });
