@@ -1,10 +1,10 @@
 module.exports = {
 	discord:{
 		token:'',
-		vc:'VC_ID',
-		guild: 'GUILD_ID',
+		vc:'',
+		guild: '',
 	},
-	coda:{
-		stream_url:'',
+	radio:{
+		url:'',
 	},
 };
