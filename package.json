@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/Project-Coda/Radio-Coda#readme",
   "dependencies": {
-    "@discordjs/voice": "^0.10.0",
+    "@discordjs/voice": "^0.11.0",
     "body-parser": "^1.20.0",
     "discord.js": "^13.8.1",
     "express": "^4.18.1",
