@@ -1,4 +1,4 @@
-const { Client } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, NoSubscriberBehavior, AudioPlayerStatus, entersState, VoiceConnectionStatus } = require('@discordjs/voice');
 const env = require('./env.js');
 const figlet = require('figlet');
@@ -7,8 +7,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser');
 const client = new Client({
-	disableEveryone: true,
-	intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES'],
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates],
 });
 client.login(env.discord.token);
 client.once('ready', async () => {
