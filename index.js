@@ -68,7 +68,7 @@ client.once('ready', async () => {
 		console.log('Received Request');
 		// Set activity based on request
 		client.user.setActivity(req.body.now_playing.song.text);
-		res.send('Set  status to' + escape(req.body.now_playing.song.text));
+		res.send('Set status to' + escape(req.body.now_playing.song.text));
 		console.log('Set status to ' + req.body.now_playing.song.text);
 	},
 	);
