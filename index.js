@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser');
+const escape = require('escape-html');
 const client = new Client({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates],
 });
@@ -67,8 +68,8 @@ client.once('ready', async () => {
 		console.log('Received Request');
 		// Set activity based on request
 		client.user.setActivity(req.body.now_playing.song.text);
-		res.send(`Set status to ${req.body.now_playing.song.text}`);
-		console.log(`Set status to ${req.body.now_playing.song.text}`);
+		res.send('Set status to' + escape(req.body.now_playing.song.text));
+		console.log('Set status to ' + req.body.now_playing.song.text);
 	},
 	);
 	app.listen(port, () => console.log(`Now Playing API listening on port ${port}!`));
