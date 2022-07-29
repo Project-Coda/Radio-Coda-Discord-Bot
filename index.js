@@ -3,6 +3,7 @@ const { joinVoiceChannel, createAudioPlayer, createAudioResource, NoSubscriberBe
 const env = require('./env.js');
 const figlet = require('figlet');
 const express = require('express');
+const pkg = require('./package.json');
 const app = express();
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser');
@@ -10,16 +11,18 @@ const escape = require('escape-html');
 const client = new Client({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates],
 });
+console.log(figlet.textSync('RADIO CODA',
+	{
+		font: 'Standard',
+		horizontalLayout: 'default',
+		verticalLayout: 'default',
+	}));
+console.log(`Version: ${pkg.version}`);
+console.log(`Author: ${pkg.author}`);
+console.log(`GitHub: ${pkg.repository.url}`);
 client.login(env.discord.token);
 client.once('ready', async () => {
-	figlet('RADIO CODA', (err, data) => {
-		if (err) {
-			console.log('Something went wrong...');
-			console.dir(err);
-			return;
-		}
-		console.log(data);
-	});
+	console.log('Ready!');
 	player = createAudioPlayer(client, {
 		NoSubscriberBehavior: NoSubscriberBehavior.Pause,
 
