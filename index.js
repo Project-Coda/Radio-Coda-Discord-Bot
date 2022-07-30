@@ -10,7 +10,7 @@ const { REST } = require('@discordjs/rest');
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser');
 const escape = require('escape-html');
-const client = new Client({
+global.client = new Client({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates],
 });
 console.log(figlet.textSync('RADIO CODA',
