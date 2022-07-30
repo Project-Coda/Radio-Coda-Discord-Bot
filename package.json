@@ -4,18 +4,19 @@
   "description": "A 24/7 music bot for discord.gg/coda",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Project-Coda/Radio-Coda.git"
+    "url": "https://github.com/Project-Coda/Radio-Coda-Discord-Bot.git"
   },
   "author": "Matheson Steplock (ikifar2012)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Project-Coda/Radio-Coda/issues"
+    "url": "https://github.com/Project-Coda/Radio-Coda-Discord-Bot/issues"
   },
-  "homepage": "https://github.com/Project-Coda/Radio-Coda#readme",
+  "homepage": "https://github.com/Project-Coda/Radio-Coda-Discord-Bot#readme",
   "dependencies": {
     "@discordjs/voice": "^0.11.0",
     "body-parser": "^1.20.0",
