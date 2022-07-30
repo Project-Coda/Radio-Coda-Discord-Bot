@@ -1,10 +1,12 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits, Routes } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, NoSubscriberBehavior, AudioPlayerStatus, entersState, VoiceConnectionStatus } = require('@discordjs/voice');
 const env = require('./env.js');
 const figlet = require('figlet');
 const express = require('express');
 const pkg = require('./package.json');
 const app = express();
+const fs = require('node:fs');
+const { REST } = require('@discordjs/rest');
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser');
 const escape = require('escape-html');
@@ -20,6 +22,34 @@ console.log(figlet.textSync('RADIO CODA',
 console.log(`Version: ${pkg.version}`);
 console.log(`Author: ${pkg.author}`);
 console.log(`GitHub: ${pkg.repository.url}`);
+
+// register slash commands
+const commands = [];
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	console.log(`Loading command ${file}...`);
+	const command = require(`./commands/${file}`);
+	commands.push(command.data.toJSON());
+}
+const rest = new REST({ version: '9' }).setToken(env.discord.token);
+
+(async () => {
+	try {
+		console.log('Started refreshing application (/) commands.');
+
+		await rest.put(
+			Routes.applicationCommands(env.discord.clientId),
+			{ body: commands },
+		);
+
+		console.log('Successfully reloaded application (/) commands.');
+	}
+	catch (error) {
+		console.error(error);
+	}
+})();
+
 client.login(env.discord.token);
 client.once('ready', async () => {
 	console.log('Ready!');
@@ -97,4 +127,12 @@ client.once('ready', async () => {
 		reset();
 	},
 	);
+});
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isChatInputCommand()) return;
+	console.log(interaction.commandName);
+	const commandFile = `./commands/${interaction.commandName}.js`;
+	if (!fs.existsSync(commandFile)) return;
+	const command = require(commandFile);
+	await command.execute(interaction);
 });
