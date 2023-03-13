@@ -1,6 +1,6 @@
 {
   "name": "radio-coda",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "A 24/7 music bot for discord.gg/coda",
   "main": "index.js",
   "scripts": {
