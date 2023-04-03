@@ -2,12 +2,5 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>Project-Coda/.github"
-  ],
-  "packageRules": [
-      {
-          "matchDepNames": ["node-fetch"],
-          "matchUpdateTypes": ["major"],
-          "enabled": false
-      }
-    ]
+  ]
 }
