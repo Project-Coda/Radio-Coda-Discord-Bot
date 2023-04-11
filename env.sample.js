@@ -3,6 +3,7 @@ module.exports = {
 		token:'',
 		vc:'',
 		guild: '',
+		clientId: '',
 	},
 	radio:{
 		url:'',
